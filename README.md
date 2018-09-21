@@ -25,3 +25,14 @@
  	- `npm test`
  - Contracts tests
  	- `truffle test`
+
+# Development
+## Creación de contrato
+	- Creamos el contrato `Catalog` dentro del directorio `/contracts`
+	- Definición de variables
+		- Tipos de datos
+			- bool: (`true/false`)
+			- int / uint: Enteros con y sin signo de varios tamaños respectivamente.
+			- address: Dirección de Ethereum (20 bytes)
+			- bytes1, bytes2, bytes3, ..., bytes32:
+			- Struct
