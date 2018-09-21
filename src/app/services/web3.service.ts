@@ -3,7 +3,7 @@ import { default as Web3 } from 'web3';
 import { default as contract } from 'truffle-contract';
 
 import { WindowRefService } from './window-ref.service';
-import metacoin_artifacts from '../../../build/contracts/MetaCoin.json';
+import metacoin_artifacts from '../../../build/contracts/Catalog.json';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
