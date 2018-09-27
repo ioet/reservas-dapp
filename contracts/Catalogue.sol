@@ -26,6 +26,10 @@ contract Catalog {
 
   	mapping(address => uint) public restaurantsIdxs;
 
+	function createRestaurant(address id) public {
+		restaurants.push(Restaurant(id, new Spot[](0)));
+	}
+
 	function getRestaurantsIds() public view returns(address[] ids) {
 		for (uint i = 0; i < restaurants.length; i++) {
 			ids[i] = restaurants[i].id;
@@ -53,7 +57,7 @@ contract Catalog {
 	}
 
 
-	function createReserve(uint spotId, uint32 date, address restaurantId) public returns(uint) {
+	function createReserve(uint spotId, uint32 date, address restaurantId) public {
 		uint id = rsrvs.length;
 
 		Rsrv memory newRsrv = Rsrv({
