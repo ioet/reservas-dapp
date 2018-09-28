@@ -3,14 +3,15 @@ pragma solidity ^0.4.2;
 contract Catalog {
 
 	struct Restaurant {
-		address id;
-		Spot[] spots;
+		uint id;
+		uint[] spotsIds;
+		mapping(uint => Spot) spots;
 	}
 
 	struct Rsrv {
     	uint id;
 		uint spotId;
-    	address restaurantId;
+    	uint restaurantId;
 		uint32 date;
 		address client;
 	}
@@ -24,13 +25,21 @@ contract Catalog {
 	Restaurant[] restaurants;
 	Rsrv[] rsrvs;
 
-  	mapping(address => uint) public restaurantsIdxs;
+  	mapping(uint => uint) public restaurantsIdxs;
 
-	function createRestaurant(address id) public {
-		restaurants.push(Restaurant(id, new Spot[](0)));
+	function createRestaurant(uint id) public {
+		restaurants.push(Restaurant(id, new uint[](0)));
 	}
 
-	function getRestaurantsIds() public view returns(address[] ids) {
+	function addSpotToRestaurant(uint restaurantId, uint spotId, uint maxAllowance, uint minAllowance) public {
+		uint idx = restaurantsIdxs[restaurantId];
+		restaurants[idx].spotsIds.push(spotId);
+		restaurants[idx].spots[spotId].id = spotId;
+		restaurants[idx].spots[spotId].maxAllowance = maxAllowance;
+		restaurants[idx].spots[spotId].minAllowance = minAllowance;
+	}
+
+	function getRestaurantsIds() public view returns(uint[] ids) {
 		for (uint i = 0; i < restaurants.length; i++) {
 			ids[i] = restaurants[i].id;
 		}
@@ -38,36 +47,38 @@ contract Catalog {
 		return ids;
 	}
 
-	function getSpotsByRestaurant(address id) public view returns(uint[], uint[], uint[]) {
+	function getSpotsByRestaurant(uint id) public view returns(uint[], uint[], uint[]) {
 		uint idx = restaurantsIdxs[id];
 		Restaurant storage restaurant = restaurants[idx];
-		uint spotsCount = restaurant.spots.length;
+		uint spotsCount = restaurant.spotsIds.length;
 
 		uint[] memory ids = new uint[](spotsCount);
 		uint[] memory maxAllowance = new uint[](spotsCount);
 		uint[] memory minAllowance = new uint[](spotsCount);
 
 		for (uint i = 0; i < spotsCount; i++) {
-		    ids[i] = restaurant.spots[i].id;
-		    maxAllowance[i] = restaurant.spots[i].maxAllowance;
-		    minAllowance[i] = restaurant.spots[i].minAllowance;
+			uint spotId = restaurant.spotsIds[i];
+			Spot memory spot = restaurant.spots[spotId];
+		    ids[i] = spot.id;
+		    maxAllowance[i] = spot.maxAllowance;
+		    minAllowance[i] = spot.minAllowance;
 		}
 
 		return (ids, maxAllowance, minAllowance);
 	}
 
 
-	function createReserve(uint spotId, uint32 date, address restaurantId) public {
-		uint id = rsrvs.length;
-
-		Rsrv memory newRsrv = Rsrv({
-			id: id,
-			spotId: spotId,
-			restaurantId: restaurantId,
-			date: date,
-			client: msg.sender
-		});
-
+	function createRsrv(uint spotId, uint32 date, uint restaurantId) public {
+		Rsrv memory newRsrv = Rsrv(rsrvs.length, spotId, restaurantId, date, msg.sender);
 		rsrvs.push(newRsrv);
+	}
+
+	function getRsrvsCount() public view returns(uint) {
+		return restaurants.length;
+	}
+
+	function getRsrvByIndex(uint index) public view returns(uint, uint, uint, uint32, address) {
+		Rsrv memory r = rsrvs[index];
+		return (r.id, r.spotId, r.restaurantId, r.date, r.client);
 	}
 }
