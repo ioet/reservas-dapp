@@ -1,64 +1,93 @@
-var Reservation = artifacts.require("./Reservation.sol");
+const Catalog = artifacts.require("./Catalog.sol");
 
-contract('Reservation', function(accounts) {
-  it("should put 10000 MetaCoin in the first account", function() {
-    return MetaCoin.deployed().then(function(instance) {
-      return instance.getBalance.call(accounts[0]);
-    }).then(function(balance) {
-      assert.equal(balance.valueOf(), 10000, "10000 wasn't in the first account");
-    });
-  });
-  
-  it("should call a function that depends on a linked library", function() {
-    var meta;
-    var metaCoinBalance;
-    var metaCoinEthBalance;
+contract('Catalog', (accounts) => {
+	let catalog;
 
-    return MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.getBalance.call(accounts[0]);
-    }).then(function(outCoinBalance) {
-      metaCoinBalance = outCoinBalance.toNumber();
-      return meta.getBalanceInEth.call(accounts[0]);
-    }).then(function(outCoinBalanceEth) {
-      metaCoinEthBalance = outCoinBalanceEth.toNumber();
-    }).then(function() {
-      assert.equal(metaCoinEthBalance, 2 * metaCoinBalance, "Library function returned unexpected function, linkage may be broken");
-    });
-  });
-  it("should send coin correctly", function() {
-    var meta;
+	beforeEach(async() => {
+		catalog = await Catalog.new();
+	});
 
-    // Get initial balances of first and second account.
-    var account_one = accounts[0];
-    var account_two = accounts[1];
+	it('should create the contract', () => {
+		assert.isDefined(catalog, 'catalog defined');
+	});
 
-    var account_one_starting_balance;
-    var account_two_starting_balance;
-    var account_one_ending_balance;
-    var account_two_ending_balance;
+	it('should create a restaurant', async() => {
+		await catalog.createRestaurant(123);
 
-    var amount = 10;
+		const restaurants = await catalog.getRestaurantsIds();
+		assert.equal(restaurants.length, 1);
+	});
 
-    return MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.getBalance.call(account_one);
-    }).then(function(balance) {
-      account_one_starting_balance = balance.toNumber();
-      return meta.getBalance.call(account_two);
-    }).then(function(balance) {
-      account_two_starting_balance = balance.toNumber();
-      return meta.sendCoin(account_two, amount, {from: account_one});
-    }).then(function() {
-      return meta.getBalance.call(account_one);
-    }).then(function(balance) {
-      account_one_ending_balance = balance.toNumber();
-      return meta.getBalance.call(account_two);
-    }).then(function(balance) {
-      account_two_ending_balance = balance.toNumber();
+	it('should add spots to a restaurant', async() => {
+		const restaurantId = 123;
+		const spot = {
+			id: 1,
+			minAllowance: 2,
+			maxAllowance: 4
+		}
 
-      assert.equal(account_one_ending_balance, account_one_starting_balance - amount, "Amount wasn't correctly taken from the sender");
-      assert.equal(account_two_ending_balance, account_two_starting_balance + amount, "Amount wasn't correctly sent to the receiver");
-    });
-  });
+		await catalog.createRestaurant(restaurantId);
+		const result = await catalog.addSpotToRestaurant(restaurantId, spot.id, spot.minAllowance, spot.maxAllowance);
+
+		assert.equal(result.receipt.status, '0x1');
+	});
+
+	it('should not add a spot if the range is not valid', async() => {
+		const restaurantId = 123;
+		const spot = {
+			id: 1,
+			minAllowance: 6,
+			maxAllowance: 4
+		}
+
+		await catalog.createRestaurant(restaurantId);
+
+		try {
+			await catalog.addSpotToRestaurant(restaurantId, spot.id, spot.minAllowance, spot.maxAllowance);
+		} catch (error) {
+			const revert =  error.message.search('revert') >= 0;
+			assert.isTrue(revert, 'max and min must be within the range');
+		}
+	});
+
+	it('should get spots by restaurant', async() => {
+		const restaurantId = 123;
+		const spot = {
+			id: 1,
+			minAllowance: 2,
+			maxAllowance: 4
+		}
+
+		await catalog.createRestaurant(restaurantId);
+		const result = await catalog.addSpotToRestaurant(restaurantId, spot.id, spot.minAllowance, spot.maxAllowance);
+
+		const [ ids, minAllowances, maxAllowances] = await catalog.getSpotsByRestaurant(restaurantId);
+
+		assert.equal(ids[0].valueOf(), spot.id);
+		assert.equal(minAllowances[0].valueOf(), spot.minAllowance);
+		assert.equal(maxAllowances[0].valueOf(), spot.maxAllowance);
+	});
+
+	it('should create a reserve', async() => {
+		await catalog.createRsrv(1, Date.now(), 2);
+
+		const rsrvs = await catalog.getRsrvsCount();
+		assert.equal(rsrvs, 1);
+	});
+
+	it('should get a reserve by index', async() => {
+		const rsrv = {
+			spotId: 1,
+			date: Date.now(),
+			restaurantId: 2
+		}
+
+		await catalog.createRsrv(rsrv.spotId, rsrv.date, rsrv.restaurantId);
+		const rsrvResult = await catalog.getRsrvByIndex(0);
+
+		assert.equal(rsrvResult[0].valueOf(), 1);
+		assert.equal(rsrvResult[1].valueOf(), rsrv.spotId);
+		assert.equal(rsrvResult[2].valueOf(), rsrv.restaurantId);
+		assert.equal(rsrvResult[3].valueOf(), rsrv.date);
+	});
 });

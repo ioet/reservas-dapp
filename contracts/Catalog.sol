@@ -12,7 +12,7 @@ contract Catalog {
     	uint id;
 		uint spotId;
     	uint restaurantId;
-		uint32 date;
+		uint64 date;
 		address client;
 	}
 
@@ -28,10 +28,13 @@ contract Catalog {
   	mapping(uint => uint) public restaurantsIdxs;
 
 	function createRestaurant(uint id) public {
+		restaurantsIdxs[id] = restaurants.length;
 		restaurants.push(Restaurant(id, new uint[](0)));
 	}
 
-	function addSpotToRestaurant(uint restaurantId, uint spotId, uint maxAllowance, uint minAllowance) public {
+	function addSpotToRestaurant(uint restaurantId, uint spotId, uint minAllowance, uint maxAllowance) public {
+		require(maxAllowance >= minAllowance);
+
 		uint idx = restaurantsIdxs[restaurantId];
 		restaurants[idx].spotsIds.push(spotId);
 		restaurants[idx].spots[spotId].id = spotId;
@@ -39,11 +42,11 @@ contract Catalog {
 		restaurants[idx].spots[spotId].minAllowance = minAllowance;
 	}
 
-	function getRestaurantsIds() public view returns(uint[] ids) {
+	function getRestaurantsIds() public view returns(uint[]) {
+		uint[] memory ids = new uint[](restaurants.length);
 		for (uint i = 0; i < restaurants.length; i++) {
 			ids[i] = restaurants[i].id;
 		}
-
 		return ids;
 	}
 
@@ -53,31 +56,32 @@ contract Catalog {
 		uint spotsCount = restaurant.spotsIds.length;
 
 		uint[] memory ids = new uint[](spotsCount);
-		uint[] memory maxAllowance = new uint[](spotsCount);
-		uint[] memory minAllowance = new uint[](spotsCount);
+		uint[] memory maxAllowances = new uint[](spotsCount);
+		uint[] memory minAllowances = new uint[](spotsCount);
 
 		for (uint i = 0; i < spotsCount; i++) {
 			uint spotId = restaurant.spotsIds[i];
 			Spot memory spot = restaurant.spots[spotId];
 		    ids[i] = spot.id;
-		    maxAllowance[i] = spot.maxAllowance;
-		    minAllowance[i] = spot.minAllowance;
+		    maxAllowances[i] = spot.maxAllowance;
+		    minAllowances[i] = spot.minAllowance;
 		}
 
-		return (ids, maxAllowance, minAllowance);
+		return (ids, minAllowances, maxAllowances);
 	}
 
 
-	function createRsrv(uint spotId, uint32 date, uint restaurantId) public {
-		Rsrv memory newRsrv = Rsrv(rsrvs.length, spotId, restaurantId, date, msg.sender);
+	function createRsrv(uint spotId, uint64 date, uint restaurantId) public {
+		// TODO: Verificar si el spot esta disponible
+		Rsrv memory newRsrv = Rsrv(rsrvs.length + 1, spotId, restaurantId, date, msg.sender);
 		rsrvs.push(newRsrv);
 	}
 
 	function getRsrvsCount() public view returns(uint) {
-		return restaurants.length;
+		return rsrvs.length;
 	}
 
-	function getRsrvByIndex(uint index) public view returns(uint, uint, uint, uint32, address) {
+	function getRsrvByIndex(uint index) public view returns(uint, uint, uint, uint64, address) {
 		Rsrv memory r = rsrvs[index];
 		return (r.id, r.spotId, r.restaurantId, r.date, r.client);
 	}
