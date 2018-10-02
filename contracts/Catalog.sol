@@ -28,9 +28,20 @@ contract Catalog {
   mapping(uint => uint) public restaurantsIdxs;
 
 	function createRestaurant(uint id) public {
-		// TODO: validacion para restaurantes no me permitan crear otros
+		require(verifyRestaurantCreation(id));
+		
 		restaurantsIdxs[id] = restaurants.length;
 		restaurants.push(Restaurant(id, new uint[](0)));
+	}
+
+	function verifyRestaurantCreation (uint id) private view returns (bool) {
+		for (uint i = 0; i < restaurants.length; i ++) {
+			if(restaurants[i].id == id) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	function addSpotToRestaurant(uint restaurantId, uint spotId, uint minAllowance, uint maxAllowance) public {

@@ -23,14 +23,28 @@ contract('Catalog', (accounts) => {
 	});
 
 	it('should create a restaurant', async() => {
-		await catalog.createRestaurant(123);
+		await catalog.createRestaurant(001);
 
 		const restaurants = await catalog.getRestaurantsIds();
 		assert.equal(restaurants.length, 2);
 	});
 
+	if('should fail if the add a restauran with an id already used', async() => {
+		await catalog.createRestaurant(123);
+
+		try {
+			await catalog.createRestaurant(123);
+		} catch (result) {
+			const revert =  error.message.search('revert') >= 0;
+			assert.isTrue(revert, 'the restaurant is already saved');
+		}
+
+		const restaurantsCount = await catalog.getRestaurantsIds();
+		assert.equal(restaurantsCount.length, 1);
+	})
+
 	it('should add spots to a restaurant', async() => {
-		const restaurantId = 123;
+		const restaurantId = 001;
 		const spot = {
 			id: 1,
 			minAllowance: 2,
@@ -44,7 +58,7 @@ contract('Catalog', (accounts) => {
 	});
 
 	it('should not add a spot if the range is not valid', async() => {
-		const restaurantId = 123;
+		const restaurantId = 001;
 		const spot = {
 			id: 1,
 			minAllowance: 6,
@@ -62,7 +76,7 @@ contract('Catalog', (accounts) => {
 	});
 
 	it('should get spots by restaurant', async() => {
-		const restaurantId = 123;
+		const restaurantId = 001;
 		const spot = {
 			id: 1,
 			minAllowance: 2,
@@ -101,4 +115,26 @@ contract('Catalog', (accounts) => {
 		assert.equal(rsrvResult[2].valueOf(), rsrv.restaurantId);
 		assert.equal(rsrvResult[1].valueOf(), rsrv.date);
 	});
+
+	it('should fail if the spot is not available', async () => {
+		const rsrv = {
+			spotId: 1,
+			date: Date.now(),
+			restaurantId: 2
+		}
+
+		await catalog.createRsrv(rsrv.spotId, rsrv.date, rsrv.restaurantId);
+
+		try {
+			await catalog.createRsrv(rsrv.spotId, rsrv.date, rsrv.restaurantId);
+		} catch (error) {
+			const revert =  error.message.search('revert') >= 0;
+			assert.isTrue(revert, 'the spot is already used');
+		}
+
+		const rsrvCount = (await catalog.getRsrvsCount()).valueOf();
+		assert.equal(rsrvCount, 1);
+	});
+
+
 });
