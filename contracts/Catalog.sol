@@ -9,9 +9,9 @@ contract Catalog {
 	}
 
 	struct Rsrv {
-    	uint id;
+    uint id;
 		uint spotId;
-    	uint restaurantId;
+    uint restaurantId;
 		uint64 date;
 		address client;
 	}
@@ -25,9 +25,10 @@ contract Catalog {
 	Restaurant[] restaurants;
 	Rsrv[] rsrvs;
 
-  	mapping(uint => uint) public restaurantsIdxs;
+  mapping(uint => uint) public restaurantsIdxs;
 
 	function createRestaurant(uint id) public {
+		// TODO: validacion para restaurantes no me permitan crear otros
 		restaurantsIdxs[id] = restaurants.length;
 		restaurants.push(Restaurant(id, new uint[](0)));
 	}
@@ -71,10 +72,23 @@ contract Catalog {
 	}
 
 
-	function createRsrv(uint spotId, uint64 date, uint restaurantId) public {
-		// TODO: Verificar si el spot esta disponible
+	function createRsrv(uint64 date, uint spotId, uint restaurantId) public {
+		require(verifyRsrv(date, spotId, restaurantId));
+
 		Rsrv memory newRsrv = Rsrv(rsrvs.length + 1, spotId, restaurantId, date, msg.sender);
 		rsrvs.push(newRsrv);
+	}
+
+	function verifyRsrv(uint date, uint spotId, uint restaurantId) private view returns (bool) {
+
+		for(uint i = 0; i < rsrvs.length; i++) {
+				if(rsrvs[i].spotId == spotId &&
+					rsrvs[i].restaurantId == restaurantId &&
+					rsrvs[i].date == date) {
+					return false;
+			}
+		}
+		return true;
 	}
 
 	function getRsrvsCount() public view returns(uint) {
