@@ -29,14 +29,14 @@ contract('Catalog', (accounts) => {
 		assert.equal(restaurants.length, 2);
 	});
 
-	if('should fail if the creation contract', async() => {
+	if('should fail if the add a restauran with an id already used', async() => {
 		await catalog.createRestaurant(123);
 
 		try {
 			await catalog.createRestaurant(123);
 		} catch (result) {
 			const revert =  error.message.search('revert') >= 0;
-			assert.isTrue(revert, 'max and min must be within the range');
+			assert.isTrue(revert, 'the restaurant is already saved');
 		}
 
 		const restaurantsCount = await catalog.getRestaurantsIds();
@@ -127,8 +127,9 @@ contract('Catalog', (accounts) => {
 
 		try {
 			await catalog.createRsrv(rsrv.spotId, rsrv.date, rsrv.restaurantId);
-		} catch (result) {
-			assert.equal(result.message, 'VM Exception while processing transaction: revert');
+		} catch (error) {
+			const revert =  error.message.search('revert') >= 0;
+			assert.isTrue(revert, 'the spot is already used');
 		}
 
 		const rsrvCount = (await catalog.getRsrvsCount()).valueOf();
