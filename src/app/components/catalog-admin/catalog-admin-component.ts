@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as restaurantsJson from './../../../assets/data/restaurants.json';
+import { Web3Service } from "../../util/web3.service";
 
 @Component({
   selector: 'catalog-admin-component',
@@ -13,12 +14,15 @@ export class CatalogAdminComponent implements OnInit {
 	public currentRestaurant:any;
 	public restaurantsMock;
 
-	constructor() {
+	private catalogInstance: any;
+
+	constructor(private web3Service: Web3Service) {
 
 	}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this.restaurantsMock = restaurantsJson;
+		this.catalogInstance = await this.web3Service.Catalog.deployed();
 	}
 
 	addRestaurant() {
@@ -27,6 +31,13 @@ export class CatalogAdminComponent implements OnInit {
 
 	saveRestaurant() {
 		console.log('save restaurant');
+		this.catalogInstance.createRestaurant(this.newRestaurant.id)
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}
 
 	cancel() {

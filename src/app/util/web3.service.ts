@@ -3,7 +3,7 @@ import { default as Web3 } from 'web3';
 import { default as contract } from 'truffle-contract';
 
 import { WindowRefService } from './window-ref.service';
-import metacoin_artifacts from '../../../build/contracts/Catalog.json';
+import catalog_artifacts from '../../../build/contracts/Catalog.json';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -11,12 +11,12 @@ export class Web3Service {
 
   private web3: Web3;
   private accounts: string[];
-  public MetaCoin: any;
+  public Catalog: any;
 
   public accountsObservable = new Subject<string[]>();
 
   constructor(private windowRef: WindowRefService) {
-    this.setupMetacoinContract();
+    this.setupCatalogContract();
     this.refreshAccounts();
   }
 
@@ -30,10 +30,10 @@ export class Web3Service {
     this.web3 = new Web3(this.windowRef.nativeWindow.web3.currentProvider);
   }
 
-  private setupMetacoinContract() {
+  private setupCatalogContract() {
     this.setupMetamaskWeb3();
-    this.MetaCoin = contract(metacoin_artifacts);
-    this.MetaCoin.setProvider(this.web3.currentProvider);
+    this.Catalog = contract(catalog_artifacts);
+    this.Catalog.setProvider(this.web3.currentProvider);
   }
 
   private refreshAccounts() {
