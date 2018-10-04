@@ -29,7 +29,7 @@ contract Catalog {
 
 	function createRestaurant(uint id) public {
 		require(verifyRestaurantCreation(id));
-		
+
 		restaurantsIdxs[id] = restaurants.length;
 		restaurants.push(Restaurant(id, new uint[](0)));
 	}

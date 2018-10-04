@@ -8,25 +8,28 @@ import { HeaderComponent } from './components/header/header-component';
 import { CatalogAdminComponent } from './components/catalog-admin/catalog-admin-component';
 import { CatalogComponent } from './components/catalog/catalog-component';
 
-import { AppRoutingModule } from './app-routing.module';
+import { Web3Service } from './services/web3.service';
+import { WindowRefService } from './services/window-ref.service';
 
-import { MetaModule } from "./meta/meta.module";
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-	HeaderComponent,
-	CatalogAdminComponent,
-	CatalogComponent
+  	HeaderComponent,
+  	CatalogAdminComponent,
+  	CatalogComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-	AppRoutingModule,
-    MetaModule
+	  AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    Web3Service,
+    WindowRefService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
