@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as restaurantsJson from './../../../assets/data/restaurants.json';
-import { Web3Service } from "../../services/web3.service";
+import { Web3Service } from '../../services/web3.service';
 
 @Component({
   selector: 'catalog-admin-component',
@@ -9,12 +9,12 @@ import { Web3Service } from "../../services/web3.service";
 })
 export class CatalogAdminComponent implements OnInit {
 	public restaurants = [];
-	public showRestaurantForm: boolean
+	public showRestaurantForm: boolean;
 	public newRestaurant: any;
-	public currentRestaurant:any;
+	public currentRestaurant: any;
 	public restaurantsMock;
 	public showSpotForm: boolean;
-	public spot:any = {};
+	public spot: any = {};
 
 	private catalogInstance: any;
 
@@ -45,8 +45,8 @@ export class CatalogAdminComponent implements OnInit {
 		const restaurantsIds = await this.catalogInstance.getRestaurantsIds();
 		this.restaurants = restaurantsIds.map((id) => {
 			const restaurant = this.restaurantsMock.find((r) => `${r.id}` === id.valueOf());
-			return restaurant
-		})
+			return restaurant;
+		});
 	}
 
 	public cancel() {
@@ -67,9 +67,9 @@ export class CatalogAdminComponent implements OnInit {
 					id,
 					min: spots[1][index],
 					max: spots[2][index]
-				}
+				};
 			});
-		};
+		}
 	}
 
 	public addSpot() {

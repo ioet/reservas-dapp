@@ -1,62 +1,62 @@
 [
     {
 		"id": 1,
-        "nombre": "BOCATTO DA FIORENTINO",
-        "ciudad": "QUITO",
-        "comida": "Italiana.",
+        "name": "BOCATTO DA FIORENTINO",
+        "city": "QUITO",
         "menu": "Pizza, calzone, pasta, filete balsámico, rissotto frutti di mare, etc.",
-        "direccion": "Mall El Jardín, 3er nivel; Scala Shopping, 2do nivel.",
+        "address": "Mall El Jardín, 3er nivel; Scala Shopping, 2do nivel.",
         "web": "www.bocatto.com.ec",
-        "pbx": "(593 2) 2980 264 / 2928 053"
+        "phone": "(593 2) 2980 264 / 2928 053",
+        "image": "assets/images/bocatto.png"
     },
     {
 		"id": 2,
-        "nombre": "RINCON DE FRANCIA",
-        "ciudad": "QUITO",
-        "comida": "Francesa.",
+        "name": "RINCON DE FRANCIA",
+        "city": "QUITO",
         "menu": "Pangora fría con espárragos, cangrejos rellenos con martinique, conejo a la mostaza de dijon, escargots a la bourguignom, etc.",
-        "direccion": "Vicente Ramón Roca N21-182 y Av. 9 de Octubre.",
+        "address": "Vicente Ramón Roca N21-182 y Av. 9 de Octubre.",
         "web": "www.rincondefrancia.com",
-        "pbx": "(593 2) 2225 053"
+        "phone": "(593 2) 2225 053",
+        "image": "assets/images/rincon_francia.png"
     },
     {
 		"id": 3,
-        "nombre": "EL CHACAL PARRILLA",
-        "ciudad": "QUITO",
-        "comida": "Parrilla.",
+        "name": "EL CHACAL PARRILLA",
+        "city": "QUITO",
         "menu": "Picaña, lomo de cerdo, bife de chorizo, etc.",
-        "direccion": "Av. Eloy Alfaro y Fernando Ayarza.",
+        "address": "Av. Eloy Alfaro y Fernando Ayarza.",
         "web": "www.elchacalparrilla.com",
-        "pbx": "(593 2) 2463 792"
+        "phone": "(593 2) 2463 792",
+        "image": "assets/images/chacal_parrilla.png"
     },
 	{
 		"id": 4,
-		"nombre": "EL JARDÍN",
-		"ciudad": "CUENCA",
-		"comida": "Ecuatoriana, Internacional.",
+		"name": "EL JARDÍN",
+		"city": "CUENCA",
 		"menu": "Fritada, los langostinos o el cordon bleu.",
-		"direccion": "Calle Larga 6-93 y Presidente Borrero.",
+		"address": "Calle Larga 6-93 y Presidente Borrero.",
 		"web": "www.eljardincuenca.com",
-		"pbx": "(5937) 2827 401"
+		"phone": "(5937) 2827 401",
+        "image": "assets/images/el_jardin.png"
 	},
 	{
 		"id": 5,
-		"nombre": "NOE SUSHI BAR",
-		"ciudad": "QUITO, GUAYAQUIL, CUENCA",
-		"comida": "Fusión Japonesa-Ecuatoriana.",
+		"name": "NOE SUSHI BAR",
+		"city": "QUITO, GUAYAQUIL, CUENCA",
 		"menu": "Rollos de sushi, sashimi, sopa, ensalada de algas, etc.",
-		"direccion": "QUITO, GUAYAQUIL, CUENCA.",
+		"address": "QUITO, GUAYAQUIL, CUENCA.",
 		"web": "www.noesushibar.com",
-		"pbx": "1800 NOE NOE (663 663)"
+		"phone": "1800 NOE NOE (663 663)",
+        "image": "assets/images/noe_sushi_bar.png"
 	},
 	{
 		"id": 6,
-		"nombre": "EL PEDREGAL AZTECA",
-		"ciudad": "CUENCA",
-		"comida": "Mexicana.",
-		"menu": "Tacos, nachos, enchiladas, pozole, chile en nogada.",
-		"direccion": "Estévez de Toral 8-60 y Simón Bolívar.",
-		"web": "www.pedregalazteca.com",
-		"pbx": "(5937) 2823 652"
+		"name": "MCDONALD'S",
+        "city": "QUITO, GUAYAQUIL, CUENCA",
+        "menu": "Hamburguesas, wraps, nuggets, ensaladas, etc.",
+        "address": "Varios locales, consultar página web",
+        "web": "www.mcdonalds.com.ec",
+        "phone": "N/D",
+		"image": "assets/images/macdonalds.png"
 	}
 ]

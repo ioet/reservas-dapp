@@ -16,8 +16,8 @@
 			<tbody>
 				<tr *ngFor="let r of restaurants">
 					<th scope="row">{{r.id}}</th>
-					<td>{{r.nombre}}</td>
-					<td>{{r.direccion}}</td>
+					<td>{{r.name}}</td>
+					<td>{{r.address}}</td>
 					<td><a (click)="viewSpots(r)">Ver Spots</a></td>
 				</tr>
 			</tbody>
@@ -42,7 +42,7 @@
 				<strong>Nombre</strong>
 			</div>
 			<div class="col-md-9">
-				{{newRestaurant.nombre}}
+				{{newRestaurant.name}}
 			</div>
 		</div>
 		<div class="row padding-bottom" *ngIf="newRestaurant">
@@ -50,7 +50,7 @@
 				<strong>Direción</strong>
 			</div>
 			<div class="col-md-9">
-				{{newRestaurant.direccion}}
+				{{newRestaurant.address}}
 			</div>
 		</div>
 
@@ -66,7 +66,7 @@
 				<strong>Restaurant</strong>
 			</div>
 			<div class="col-md-9">
-				{{currentRestaurant.nombre}}
+				{{currentRestaurant.name}}
 			</div>
 		</div>
 
