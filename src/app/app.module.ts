@@ -9,6 +9,7 @@ import { CatalogAdminComponent } from './components/catalog-admin/catalog-admin-
 import { CatalogComponent } from './components/catalog/catalog-component';
 import { RestaurantComponent } from './components/restaurant/restaurant-component';
 import { SpotComponent } from './components/spot/spot-component';
+import { ReservationsComponent } from './components/reservations/reservations-component';
 
 import { Web3Service } from './services/web3.service';
 import { WindowRefService } from './services/window-ref.service';
@@ -22,7 +23,8 @@ import { AppRoutingModule } from './app-routing.module';
   	CatalogAdminComponent,
   	CatalogComponent,
     RestaurantComponent,
-    SpotComponent
+    SpotComponent,
+    ReservationsComponent,
   ],
   imports: [
     BrowserModule,
