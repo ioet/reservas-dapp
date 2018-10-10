@@ -60,7 +60,6 @@ export class CatalogAdminComponent implements OnInit {
 
 		this.currentRestaurant = r;
 		const spots = await this.catalogInstance.getSpotsByRestaurant(this.currentRestaurant.id);
-
 		if (!!spots && spots.length && spots[0].length) {
 			this.currentRestaurant.spots = spots[0].map((id, index) => {
 				return {
@@ -79,6 +78,9 @@ export class CatalogAdminComponent implements OnInit {
 	public async saveSpot() {
 		try {
 			const result = await this.catalogInstance.addSpotToRestaurant(this.currentRestaurant.id, this.spot.id, this.spot.min, this.spot.max);
+			setTimeout(async () => {
+				await this.viewSpots(this.currentRestaurant);
+			}, 4000);
 		} catch (e) {
 			console.log(e);
 		}
