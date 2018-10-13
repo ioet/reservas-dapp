@@ -4,13 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './components/header/header-component';
+
 
 import { Web3Service } from './services/web3.service';
 import { WindowRefService } from './services/window-ref.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+	HeaderComponent
   ],
   imports: [
     BrowserModule,
