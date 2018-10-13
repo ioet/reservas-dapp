@@ -1,0 +1,32 @@
+<div class="container">
+	<div *ngIf="!currentRestaurant">
+		<div class="row">
+			<div class="col-md-4 col-sm-6 col-xs-12" *ngFor="let r of restaurants">
+				<restaurant-component [restaurant]="r"
+									  (onRestaurantClick)="viewRestaurantSpots($event)">
+
+				</restaurant-component>
+			</div>
+		</div>
+	</div>
+	<div *ngIf="currentRestaurant">
+		<a (click)="cancel()" class="float-right padding-bottom">Regresar</a>
+		<div class="row padding-bottom">
+			<div class="col-md-2 col-xs-4">
+				<strong>Restaurant</strong>
+			</div>
+			<div class="col-md-10 col-xs-8">
+				{{currentRestaurant.name}}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-4 col-xs-6" *ngFor="let spot of currentRestaurant.spots">
+				<spot-component [spot]="spot"
+							    (onSpotClick)="saveReserve($event)">
+
+				</spot-component>
+			</div>
+		</div>
+	</div>
+</div>

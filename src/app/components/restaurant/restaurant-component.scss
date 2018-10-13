@@ -1,0 +1,17 @@
+.item-container {
+	max-width: 100%;
+	border: 2px solid #cacaca;
+	padding: 10px;
+	min-height: 335px;
+	margin-bottom: 10px;
+
+	img {
+		width: 260px;
+		height: 160px;
+    	object-fit: cover;
+	}
+
+	:hover {
+		cursor: pointer;
+	}
+}

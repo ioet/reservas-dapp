@@ -6,6 +6,9 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header-component';
 import { CatalogAdminComponent } from './components/catalog-admin/catalog-admin-component';
+import { CatalogComponent } from './components/catalog/catalog-component';
+import { RestaurantComponent } from './components/restaurant/restaurant-component';
+import { SpotComponent } from './components/spot/spot-component';
 
 
 import { Web3Service } from './services/web3.service';
@@ -17,7 +20,10 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [
     AppComponent,
 	HeaderComponent,
-	CatalogAdminComponent
+	CatalogAdminComponent,
+	CatalogComponent,
+	RestaurantComponent,
+	SpotComponent
   ],
   imports: [
     BrowserModule,
