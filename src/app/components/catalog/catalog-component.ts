@@ -48,8 +48,6 @@ export class CatalogComponent implements OnInit {
 	}
 
 	public async saveReserve(spot) {
-		console.log(spot);
-
 		try {
 			const result = await this.catalogInstance.createRsrv(Date.now(), spot.id.valueOf(), this.currentRestaurant.id);
 		} catch (e) {
