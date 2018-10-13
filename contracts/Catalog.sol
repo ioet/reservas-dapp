@@ -9,9 +9,9 @@ contract Catalog {
 	}
 
 	struct Rsrv {
-    uint id;
+	    uint id;
 		uint spotId;
-    uint restaurantId;
+	    uint restaurantId;
 		uint64 date;
 		address client;
 	}
@@ -25,7 +25,7 @@ contract Catalog {
 	Restaurant[] restaurants;
 	Rsrv[] rsrvs;
 
-  mapping(uint => uint) public restaurantsIdxs;
+    mapping(uint => uint) public restaurantsIdxs;
 
 	function createRestaurant(uint id) public {
 		require(verifyRestaurantCreation(id));
