@@ -5,20 +5,25 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header-component';
+import { CatalogAdminComponent } from './components/catalog-admin/catalog-admin-component';
 
 
 import { Web3Service } from './services/web3.service';
 import { WindowRefService } from './services/window-ref.service';
 
+import { AppRoutingModule } from './app-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent,
-	HeaderComponent
+	HeaderComponent,
+	CatalogAdminComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+	AppRoutingModule
   ],
   providers: [
 	  Web3Service,

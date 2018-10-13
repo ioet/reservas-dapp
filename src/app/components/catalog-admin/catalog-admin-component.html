@@ -1,0 +1,137 @@
+<div class="container row">
+	<div class="col-md-6">
+		<h2>Restaurantes</h2>
+		<div class="float-right">
+			<button type="button" class="btn btn-primary" (click)="addRestaurant()">Agregar</button>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Dirección</th>
+					<th scope="col">Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let r of restaurants">
+					<th scope="row">{{r.id}}</th>
+					<td>{{r.name}}</td>
+					<td>{{r.address}}</td>
+					<td><a (click)="viewSpots(r)">Ver Spots</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-md-6" *ngIf="showRestaurantForm">
+		<h3 class="padding-bottom">Crear Restaurante</h3>
+		<div class="row padding-bottom">
+			<div class="col-md-3">
+				<strong>ID</strong>
+			</div>
+			<div class="col-md-9">
+				<select [(ngModel)]="newRestaurant" name="rest" #rest="ngModel"  class="form-control">
+					<option *ngFor="let r of restaurantsMock" [ngValue]="r">
+					  {{r.id}}
+					</option>
+				</select>
+			</div>
+		</div>
+		<div class="row padding-bottom" *ngIf="newRestaurant">
+			<div class="col-md-3">
+				<strong>Nombre</strong>
+			</div>
+			<div class="col-md-9">
+				{{newRestaurant.name}}
+			</div>
+		</div>
+		<div class="row padding-bottom" *ngIf="newRestaurant">
+			<div class="col-md-3">
+				<strong>Direción</strong>
+			</div>
+			<div class="col-md-9">
+				{{newRestaurant.address}}
+			</div>
+		</div>
+
+		<button type="button" class="btn btn-primary" (click)="saveRestaurant()">Guardar</button>
+		<button type="button" class="btn btn-danger" (click)="cancel()">Cancelar</button>
+	</div>
+
+	<div class="col-md-6" *ngIf="!!currentRestaurant">
+		<h2>Mesas</h2>
+
+		<div class="row padding-bottom">
+			<div class="col-md-3">
+				<strong>Restaurant</strong>
+			</div>
+			<div class="col-md-9">
+				{{currentRestaurant.name}}
+			</div>
+		</div>
+
+		<div class="float-right">
+			<button type="button" class="btn btn-primary" (click)="addSpot()">Agregar</button>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Max</th>
+					<th scope="col">Min</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let spot of currentRestaurant.spots">
+					<th scope="row">{{spot.id}}</th>
+					<td>{{spot.max}}</td>
+					<td>{{spot.min}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div *ngIf="showSpotForm">
+			<h3 class="padding-bottom">Agregar mesa</h3>
+			<div class="row padding-bottom">
+				<div class="col-md-3">
+					<strong>ID</strong>
+				</div>
+				<div class="col-md-9">
+					<input type="number"
+				    required
+				    [(ngModel)]="spot.id"
+				    #spotId="ngModel"
+				    name="spotId">
+				</div>
+			</div>
+
+			<div class="row padding-bottom">
+				<div class="col-md-3">
+					<strong>Max</strong>
+				</div>
+				<div class="col-md-9">
+					<input type="number"
+				    required
+				    [(ngModel)]="spot.max"
+				    #spotMax="ngModel"
+				    name="spotMax">
+				</div>
+			</div>
+
+			<div class="row padding-bottom">
+				<div class="col-md-3">
+					<strong>Min</strong>
+				</div>
+				<div class="col-md-9">
+					<input type="number"
+				    required
+				    [(ngModel)]="spot.min"
+				    #spotMin="ngModel"
+				    name="spotMin">
+				</div>
+			</div>
+
+			<button type="button" class="btn btn-primary" (click)="saveSpot()">Guardar</button>
+			<button type="button" class="btn btn-danger" (click)="cancel()">Cancelar</button>
+		</div>
+	</div>
+</div>
